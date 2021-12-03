@@ -3,11 +3,10 @@ package utils;
 import com.fasterxml.jackson.core.util.DefaultPrettyPrinter;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectWriter;
-import model.Task;
-
 import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.Map;
+import model.Task;
 
 public class FileHelper {
     //read and write from/in JSON file

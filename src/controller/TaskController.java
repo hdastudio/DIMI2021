@@ -16,13 +16,6 @@ public class TaskController {
         taskMap.putAll(fileHelper.fillMapFromJSON());
     }
 
-    private void printMap(Map<Integer, Task> map){
-        for(Map.Entry<Integer, Task> entry : map.entrySet()){
-            System.out.println(entry.getKey() + ":\n\t" + entry.getValue().getId() +
-                    "\n\t" + entry.getValue().getDescription());
-        }
-    }
-
     public void actionAdd(){
         boolean check = true;
         Integer numEx = null;
@@ -59,7 +52,7 @@ public class TaskController {
     }
 
     public void actionDisplay(){
-        printMap(taskMap);
+        System.out.println(taskMap);
     }
 
     public void actionSave(){
