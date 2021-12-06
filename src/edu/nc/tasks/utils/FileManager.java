@@ -1,7 +1,10 @@
 package edu.nc.tasks.utils;
 
+import java.beans.XMLDecoder;
+import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.nio.file.*;
+import java.util.HashMap;
 
 /**
  * Utility to work with files
@@ -52,5 +55,15 @@ public class FileManager {
         Files.writeString(ofile, con, StandardOpenOption.TRUNCATE_EXISTING);
 
         return;
+    }
+
+    public static HashMap<Integer, String> readXML(String path) throws IOException {
+
+        Path file = Path.of(path);
+        ByteArrayInputStream databytes;
+        databytes = new ByteArrayInputStream(Files.readAllBytes(file));
+
+        XMLDecoder xmlDecoder = new XMLDecoder(databytes);
+        return (HashMap<Integer, String>) xmlDecoder.readObject();
     }
 }

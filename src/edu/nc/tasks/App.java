@@ -1,14 +1,12 @@
 package edu.nc.tasks;
 
+import edu.nc.tasks.controllers.DBManager;
 import edu.nc.tasks.controllers.TasklistManager;
 import edu.nc.tasks.models.Tasklist;
 import edu.nc.tasks.views.ConsoleMenu;
 
-import java.beans.XMLDecoder;
-import java.io.ByteArrayInputStream;
 import java.io.IOException;
-import java.nio.file.*;
-import java.util.HashMap;
+import java.sql.*;
 
 /**
  * The App class implements a console application
@@ -20,7 +18,7 @@ import java.util.HashMap;
  * as a .json or a .csv file.
  *
  * @author Sigeeva Sofia
- * @version 1.0
+ * @version 1.1
  */
 public class App {
 
@@ -31,32 +29,13 @@ public class App {
      * @throws IOException - on failing to create or
      * read from file
      */
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) throws IOException, SQLException {
 
         //mvc components
         Tasklist tasks = new Tasklist();
         ConsoleMenu view = new ConsoleMenu();
-        TasklistManager controller = new TasklistManager(tasks, view);
-
-
-        Path file = Path.of("data.xml");
-        HashMap<Integer, String> dmap;
-        if (Files.exists(file)) {
-            //parse xml
-            ByteArrayInputStream databytes;
-            databytes = new ByteArrayInputStream(Files.readAllBytes(file));
-
-            XMLDecoder xmlDecoder = new XMLDecoder(databytes);
-            dmap = (HashMap<Integer, String>) xmlDecoder.readObject();
-
-            System.out.println("Список задач загружен из файла \"data.xml\"");
-        } else {
-            dmap = new HashMap<Integer, String>();
-
-            System.out.println("Не найден файл \"data.xml\". Создан новый список задач");
-        }
-
-        controller.setTasks(dmap);
+        DBManager db = new DBManager("sql.edu-netcracker.com", "1251", "xe", "TLT_20", "TLT_20");
+        TasklistManager controller = new TasklistManager(tasks, view, db);
 
         view.callMenu(controller);
 

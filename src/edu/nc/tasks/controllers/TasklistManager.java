@@ -1,8 +1,13 @@
 package edu.nc.tasks.controllers;
 
 import edu.nc.tasks.models.Tasklist;
+import edu.nc.tasks.utils.FileManager;
 import edu.nc.tasks.views.ConsoleMenu;
 
+import java.io.File;
+import java.io.IOException;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.HashMap;
 
 /**
@@ -12,15 +17,20 @@ public class TasklistManager {
     private Tasklist model;
     private ConsoleMenu view;
 
+    private DBManager db;
+
     /**
      * This method instantiates a new Task controller.
      *
      * @param model - model component
      * @param view  - view component
      */
-    public TasklistManager(Tasklist model, ConsoleMenu view) {
+    public TasklistManager(Tasklist model, ConsoleMenu view, DBManager db) throws SQLException {
         this.model = model;
         this.view = view;
+
+        this.db = db;
+        db.connect();
     }
 
     /**
@@ -101,5 +111,61 @@ public class TasklistManager {
     public void showTasks() {
 
         view.printTasks(model.getTasks());
+    }
+
+    public void initializeFromFile(String path) throws IOException {
+
+        model.setTasks(FileManager.readXML(path));
+
+        return;
+    }
+
+    public void initializeFromDB() throws SQLException {
+
+        ResultSet rs = db.executeQuery("select * from sss_tasks");
+
+        //slow??
+        while (rs.next()) {
+            model.addTask(rs.getInt(1), rs.getString(2));
+        }
+
+        return;
+
+    }
+
+    //????
+    public void saveToDB() throws SQLException {
+        ResultSet rs = db.executeQuery("select sss_tasks.* from sss_tasks");
+        HashMap<Integer, String> tasksCopy = model.getTasks();
+
+        //update & delete rows
+        while (rs.next()) {
+            int curKey = rs.getInt(1);
+            String curTask = rs.getString(2);
+
+            if (existsTask(curKey)) {
+                if (!getTask(curKey).equals(curTask)) {
+                    rs.updateString(2, getTask(curKey));
+                    rs.updateRow();
+                }
+                tasksCopy.remove(curKey);
+            } else {
+                rs.deleteRow();
+            }
+        }
+
+        //insert rows
+        tasksCopy.forEach((key, task) -> {
+            try {
+                rs.moveToInsertRow();
+                rs.updateInt(1, key);
+                rs.updateString(2, task);
+                rs.insertRow();
+                rs.moveToCurrentRow();
+
+            } catch (SQLException e) {
+                System.out.println("Произошла ошибка при внесении в базу данных задачи \"" + key + ": " + task + "\"");
+            }
+        });
     }
 }

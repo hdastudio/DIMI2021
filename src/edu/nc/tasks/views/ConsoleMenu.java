@@ -4,6 +4,7 @@ import edu.nc.tasks.controllers.TasklistManager;
 import edu.nc.tasks.utils.*;
 
 import java.io.IOException;
+import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Scanner;
 
@@ -31,10 +32,39 @@ public class ConsoleMenu {
      * @throws IOException - on failing to create or
      * write to files
      */
-    public void callMenu(TasklistManager controller) throws IOException {
+    public void callMenu(TasklistManager controller) throws IOException, SQLException {
 
         boolean alive = true;
         int cmd = -1;
+
+        System.out.print("""
+                Выберите источник списка задач:
+                1. Файл
+                2. База данных
+                """);
+        switch (InputAction.readNumber()) {
+            case 1: {
+                if (FileManager.fileExists("data.xml")) {
+                    controller.initializeFromFile("data.xml");
+                    System.out.println("Список задач загружен из файла \"data.xml\"");
+                } else {
+                    controller.setTasks(new HashMap<Integer, String>());
+                    System.out.println("Не найден файл \"data.xml\". Создан новый список задач");
+                }
+                InputAction.waitForEnter();
+
+                break;
+            }
+            case 2: {
+                controller.setTasks(new HashMap<Integer, String>());
+                controller.initializeFromDB();
+                System.out.println("Список задач загружен из базы данных");
+                InputAction.waitForEnter();
+
+                break;
+
+            }
+        }
 
         while (alive) {
             System.out.print("""
@@ -46,8 +76,7 @@ public class ConsoleMenu {
                 5. Выход
                 """);
 
-            cmd = InputAction.readNumber();
-            switch (cmd) {
+            switch (InputAction.readNumber()) {
                 //add task
                 case 1: {
                     System.out.println("Введите номер задачи");
@@ -111,67 +140,75 @@ public class ConsoleMenu {
                 }
                 //save to file
                 case 3: {
-                    System.out.print("""
+                    System.out.print("Сохранить данные в файл? (y/n) ");
+                    if (InputAction.confirm()) {
+                        System.out.print("""
                             Сохранить в формате:
                             1. xml
                             2. json
                             3. csv
                             """);
 
-                    int format = InputAction.readNumber();
+                        boolean validFormat = true;
 
-                    boolean validFormat = true;
+                        String outs = "";
+                        String outf = "data";
 
-                    String outs = "";
-                    String outf = "data";
+                        switch (InputAction.readNumber()) {
+                            //xml
+                            case 1: {
+                                outs = XMLConverter.toXML(controller.getTasks());
+                                outf += ".xml";
 
-                    switch (format) {
-                        //xml
-                        case 1: {
-                            outs = XMLConverter.toXML(controller.getTasks());
-                            outf += ".xml";
+                                break;
+                            }
+                            //json
+                            case 2: {
+                                outs = JSONConverter.toJSON(controller.getTasks());
+                                outf += ".json";
 
-                            break;
+                                break;
+                            }
+                            //csv
+                            case 3: {
+                                outs = CSVConverter.toCSV(controller.getTasks());
+                                outf += ".csv";
+
+                                break;
+                            }
+                            default: {
+                                validFormat = false;
+                                System.out.println("Ошибка: неизвестная команда\n");
+                                break;
+                            }
                         }
-                        //json
-                        case 2: {
-                            outs = JSONConverter.toJSON(controller.getTasks());
-                            outf += ".json";
 
-                            break;
-                        }
-                        //csv
-                        case 3: {
-                            outs = CSVConverter.toCSV(controller.getTasks());
-                            outf += ".csv";
-
-                            break;
-                        }
-                        default: {
-                            validFormat = false;
-                            System.out.println("Ошибка: неизвестная команда\n");
-                            break;
-                        }
-                    }
-
-                    if (!validFormat) {
-                        System.out.println("Сохранение списка задач было прервано");
-                        break;
-                    }
-
-                    if (FileManager.fileExists(outf)) {
-                        System.out.print("Файл \"" + outf + "\" уже существует.\nПерезаписать файл? (y/n) ");
-                        if (!InputAction.confirm()) {
+                        if (!validFormat) {
                             System.out.println("Сохранение списка задач было прервано");
                             break;
-                        } else {
-                            FileManager.rewriteFile(outf, outs);
                         }
-                    } else {
-                        FileManager.writeFile(outf, outs);
+
+                        if (FileManager.fileExists(outf)) {
+                            System.out.print("Файл \"" + outf + "\" уже существует.\nПерезаписать файл? (y/n) ");
+                            if (!InputAction.confirm()) {
+                                System.out.println("Сохранение списка задач было прервано");
+                                break;
+                            } else {
+                                FileManager.rewriteFile(outf, outs);
+                            }
+                        } else {
+                            FileManager.writeFile(outf, outs);
+                        }
+                        System.out.println("Список задач успешно сохранен в файл");
+                        InputAction.waitForEnter();
                     }
-                    System.out.println("Список задач успешно сохранен");
-                    InputAction.waitForEnter();
+
+                    System.out.print("Сохранить данные в БД? (y/n) ");
+                    if (InputAction.confirm()) {
+                        controller.saveToDB();
+                        System.out.println("Список задач успешно сохранен в базу данных");
+                        InputAction.waitForEnter();
+                    }
 
                     break;
                 }
