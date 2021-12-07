@@ -11,13 +11,15 @@ import java.util.HashMap;
 public class XMLConverter {
 
     /**
-     * This method converts the tasklist to
+     * Converts the tasklist to
      * a xml string.
      *
-     * @param tasklist - the tasklist
-     * @return - the xml string
+     * @param tasklist the HashMap<Integer, String> object
+     *                 containing the tasklist
+     * @return the xml string representing the tasklist
      */
     public static String toXML(HashMap<Integer, String> tasklist) {
+
         ByteArrayOutputStream xml = new ByteArrayOutputStream();
         XMLEncoder xmlEncoder = new XMLEncoder(xml);
         xmlEncoder.writeObject(tasklist);

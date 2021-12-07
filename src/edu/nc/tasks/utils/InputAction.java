@@ -10,10 +10,11 @@ import java.util.Scanner;
  */
 public class InputAction {
     /**
-     * This method pauses the application and waits
+     * Pauses the application and waits
      * until the user presses the Enter key.
      */
     public static void waitForEnter() {
+
         System.out.println("Нажмите Enter для продолжения...");
 
         try {
@@ -22,13 +23,14 @@ public class InputAction {
     }
 
     /**
-     * This method takes input from the user,
-     * printing an errormessage if the input
+     * Takes input from the user,
+     * printing an error message if the input
      * is not numerical.
      *
      * @return int - the number the user entered
      */
     public static int readNumber() {
+
         Scanner inp = new Scanner(System.in);
         int n = -1;
 
@@ -45,12 +47,14 @@ public class InputAction {
     }
 
     /**
-     * This method takes 'y' or 'n' from the user
+     * Takes 'y' or 'n' from the user
      * to confirm or cancel operations respectively.
      *
-     * @return boolean - confirmation
+     * @return boolean true if the user enters 'y';
+     *                 false if the user enters 'n'
      */
     public static boolean confirm() {
+
         Scanner inp = new Scanner(System.in);
         char cmd;
 

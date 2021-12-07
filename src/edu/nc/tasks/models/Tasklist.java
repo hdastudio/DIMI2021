@@ -9,9 +9,11 @@ public class Tasklist {
     private HashMap<Integer, String> tasks;
 
     /**
-     * This method gets the tasks
+     * Gets the HashMap<Integer, String>
+     * containing the tasklist
      *
-     * @return - tasks
+     * @return the HashMap<Integer, String>
+     *         containing the tasklist
      */
     public HashMap<Integer, String> getTasks() {
 
@@ -19,41 +21,49 @@ public class Tasklist {
     }
 
     /**
-     * This method sets the tasks
+     * Sets the HashMap<Integer, String>
+     * containing the tasklist
      *
-     * @param tasks - new map to replace the tasks
+     * @param tasks new HashMap<Integer, String>
+     *              to replace the tasklist
      */
     public void setTasks(HashMap<Integer, String> tasks) {
 
         this.tasks = tasks;
+
+        return;
     }
 
     /**
-     * This method adds a task to the map
+     * Adds a task to the tasklist
      *
-     * @param key - # of the task
-     * @param task - the task
+     * @param key  # of the task
+     * @param task the task
      */
     public void addTask(int key, String task) {
 
         tasks.put(key, task);
+
+        return;
     }
 
     /**
-     * This method removes the task from the map
+     * Removes the task from the tasklist
      *
-     * @param key - # of the task
+     * @param key # of the task
      */
     public void removeTask(int key) {
 
         tasks.remove(key);
+
+        return;
     }
 
     /**
-     * This method gets a specified task from the map
+     * Gets the specified task from the tasklist
      *
-     * @param key  - # of the task
-     * @return - the specified task
+     * @param key # of the task
+     * @return the specified task
      */
     public String getTask(int key) {
 

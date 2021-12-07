@@ -9,11 +9,12 @@ import java.util.HashMap;
 public class CSVConverter {
 
     /**
-     * This method converts the tasklist to
+     * Converts the tasklist to
      * a csv string.
      *
-     * @param tasklist - the tasklist
-     * @return - the csv string
+     * @param tasklist the HashMap<Integer, String> object
+     *                 containing the tasklist
+     * @return the csv string representing the tasklist
      */
     public static String toCSV(HashMap<Integer, String> tasklist) {
 

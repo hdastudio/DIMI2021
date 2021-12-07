@@ -9,11 +9,12 @@ import java.util.HashMap;
 public class JSONConverter {
 
     /**
-     * This method converts the tasklist to
+     * Converts the tasklist to
      * a json string.
      *
-     * @param tasklist - the tasklist
-     * @return - the json string
+     * @param tasklist the HashMap<Integer, String> object
+     *                 containing the tasklist
+     * @return the json string representing the tasklist
      */
     public static String toJSON(HashMap<Integer, String> tasklist) {
 

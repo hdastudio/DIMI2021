@@ -25,9 +25,7 @@ public class App {
     /**
      * The entry point of application.
      *
-     * @param args - input arguments
-     * @throws IOException - on failing to create or
-     * read from file
+     * @param args input arguments
      */
     public static void main(String[] args) throws IOException, SQLException {
 
