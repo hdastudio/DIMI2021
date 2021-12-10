@@ -1,6 +1,7 @@
 package edu.nc.tasks.controllers;
 
 import edu.nc.tasks.models.Tasklist;
+import edu.nc.tasks.utils.DBManager;
 import edu.nc.tasks.utils.FileManager;
 import edu.nc.tasks.views.ConsoleMenu;
 
