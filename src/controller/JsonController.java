@@ -1,16 +1,16 @@
 package controller;
 
 import java.util.HashMap;
-import utils.FileHelper;
+import utils.JsonHelper;
 import model.Task;
 import java.util.Map;
 import java.util.Scanner;
 
-public class TaskController {
+public class JsonController {
 
     Scanner sc = new Scanner(System.in);
     Map<Integer, Task> taskMap = new HashMap<>();
-    FileHelper fileHelper = new FileHelper();
+    JsonHelper fileHelper = new JsonHelper();
 
     public void copyingMap(){
         taskMap.putAll(fileHelper.fillMapFromJSON());

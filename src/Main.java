@@ -1,14 +1,13 @@
-import controller.TaskController;
+import controller.JsonController;
 import view.ConsoleView;
 
 public class Main {
     public static void main(String[] args) {
         ConsoleView view = new ConsoleView();
-        TaskController controller = new TaskController();
+        JsonController controller = new JsonController();
         controller.copyingMap();
         while(true){
-            view.printMenu();
-            view.selectMenuAction(controller);
+            view.printMenu(view.chooseSaveMethod());
         }
     }
 }

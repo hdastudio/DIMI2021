@@ -8,7 +8,7 @@ import java.util.HashMap;
 import java.util.Map;
 import model.Task;
 
-public class FileHelper {
+public class JsonHelper {
     //read and write from/in JSON file
     private ObjectMapper mapper = new ObjectMapper();
     private ObjectWriter writer = mapper.writer(new DefaultPrettyPrinter());
