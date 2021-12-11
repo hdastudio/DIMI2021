@@ -17,7 +17,7 @@ public class FileManager {
 
         jsonList.add(taskList);
 
-        try (FileWriter file = new FileWriter("D:\\task\\src\\main\\java\\database.json")) {
+        try (FileWriter file = new FileWriter("D:\\DIMI2021\\src\\main\\java\\database.json")) {
             file.write(jsonList.toJSONString());
             file.flush();
         } catch (IOException e) {
@@ -28,7 +28,7 @@ public class FileManager {
 
     public void readJSON() {
 
-        try(FileReader jReadr = new FileReader("D:\\task\\src\\main\\java\\database.json")) {
+        try(FileReader jReadr = new FileReader("D:\\DIMI2021\\src\\main\\java\\database.json")) {
 
             Object object = jsonParser.parse(jReadr);
             JSONArray jsonList = (JSONArray) object;
