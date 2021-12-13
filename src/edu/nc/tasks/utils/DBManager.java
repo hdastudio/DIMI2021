@@ -60,24 +60,28 @@ public class DBManager {
         return;
     }
 
-    //destructor (deprecated?)
-    protected void finalize() throws SQLException {
-
-        this.con.close();
-
-        return;
-    }
-
     /**
      * Connects to the database
      *
      * @throws SQLException if a database access error occurs
      */
-    public void connect() throws SQLException{
+    public void connect() throws SQLException {
 
         String url = driver + ":@" + address + ":" + port + ":" + SID;
         this.con = DriverManager.getConnection(url, username, password);
         this.stat = con.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
+
+        return;
+    }
+
+    /**
+     * Disconnects from the database
+     *
+     * @throws SQLException if a database access error occurs
+     */
+    public void disconnect() throws SQLException {
+
+        con.close();
 
         return;
     }

@@ -25,6 +25,7 @@ public class TasklistManager {
      * @param model the model component
      * @param view  the view component
      * @param db    the database manager
+     * @throws SQLException the sql exception
      */
     public TasklistManager(Tasklist model, ConsoleMenu view, DBManager db) throws SQLException {
 
@@ -42,8 +43,7 @@ public class TasklistManager {
      * get the HashMap<Integer, String>
      * containing the tasklist
      *
-     * @return HashMap<Integer, String>
-     *         containing the tasklist
+     * @return HashMap<Integer, String>          containing the tasklist
      */
     public HashMap<Integer, String> getTasks() {
 
@@ -55,8 +55,8 @@ public class TasklistManager {
      * set the HashMap<Integer, String>
      * containing the tasklist
      *
-     * @return HashMap<Integer, String>
-     *         containing the tasklist
+     * @param tasks the tasks
+     * @return HashMap<Integer, String>          containing the tasklist
      */
     public void setTasks(HashMap<Integer, String> tasks) {
 
@@ -70,8 +70,7 @@ public class TasklistManager {
      * number exists
      *
      * @param key # of the task
-     * @return boolean true if the task exists;
-     *                 false if the task doesn't exist
+     * @return boolean true if the task exists;                 false if the task doesn't exist
      */
     public boolean existsTask(int key) {
 
@@ -100,6 +99,18 @@ public class TasklistManager {
     public void addTask(int key, String task) {
 
         model.addTask(key, task);
+
+        return;
+    }
+
+
+    /**
+     * Disconnects from the database
+     *
+     */
+    public void closeDB() throws SQLException {
+
+        db.disconnect();
 
         return;
     }
