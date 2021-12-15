@@ -1,7 +1,9 @@
 import java.util.Scanner;
 
 public class ConsoleView {
+
     TaskController taskController;
+    SQLManager sqlManager = new SQLManager();
     FileManager fileManager = new FileManager();
 
     public ConsoleView(TaskController taskController) {
@@ -17,13 +19,19 @@ public class ConsoleView {
                 +"\n"
                 + "1 Добавить"
                 +"\n"
-                + "2 Отобразить"
+                + "2 Отобразить из файла"
                 +"\n"
-                + "3 Сохранить"
+                + "3 Отобразить из sql"
                 +"\n"
-                + "4 Удалить"
+                + "4 Сохранить в фаил"
                 +"\n"
-                + "5 Выход"
+                + "5 Сохранить в sql"
+                +"\n"
+                + "6 Удалить из файла"
+                +"\n"
+                + "7 Удалить из sql"
+                +"\n"
+                + "8 Выход"
         );
         System.out.println("Выберите нужный пункт меню");
         menuItem = scan.nextInt();
@@ -55,20 +63,32 @@ public class ConsoleView {
                 case 2:
                     System.out.println("Выбрано меню " + menuItem);
                     fileManager.readJSON();
-
                     break;
-
                 case 3:
+                    System.out.println("Выбрано меню " + menuItem);
+                    sqlManager.readSQL();
+                    break;
+                case 4:
                     System.out.println("Выбрано меню " + menuItem);
                     fileManager.writeJSON(this.taskController.taskList);
                     break;
 
-                case 4:
+                case 5:
+                    System.out.println("Выбрано меню " + menuItem);
+                    sqlManager.writeSQL(this.taskController.taskList);
+                    break;
+
+                case 6:
                     System.out.println("Выбрано меню " + menuItem);
                     fileManager.deliteJSON();
                     break;
 
-                case 5:
+                case 7:
+                    System.out.println("Выбрано меню " + menuItem);
+                    sqlManager.deleteSQL();
+                    break;
+
+                case 8:
                     System.out.println("Выбрано меню " + menuItem);
                     System.exit(1);
                     break;
