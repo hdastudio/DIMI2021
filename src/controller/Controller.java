@@ -3,18 +3,35 @@ package controller;
 import java.util.HashMap;
 import utils.JsonHelper;
 import model.Task;
+import utils.SQLHelper;
+
 import java.util.Map;
 import java.util.Scanner;
 
-public class JsonController {
+public class Controller {
 
-    Scanner sc = new Scanner(System.in);
-    Map<Integer, Task> taskMap = new HashMap<>();
-    JsonHelper fileHelper = new JsonHelper();
+    private Map<Integer, Task> taskMap = new HashMap<>();
+    private JsonHelper jsonHelper = new JsonHelper();
+    private SQLHelper sqlHelper = new SQLHelper();
 
-    public void copyingMap(){
-        taskMap.putAll(fileHelper.fillMapFromJSON());
+    public String getSaveMethod() {
+        return saveMethod;
     }
+
+    private String saveMethod;
+
+    public Controller(String saveMethod) {
+        this.saveMethod = saveMethod;
+    }
+
+    public void fillMap(){
+        if(saveMethod.equalsIgnoreCase("JSON")){
+            jsonHelper.fillMap(taskMap);
+        }else if(saveMethod.equalsIgnoreCase("DataBase")){
+            sqlHelper.fillMap(taskMap);
+        }
+    }
+    Scanner sc = new Scanner(System.in);
 
     public void actionAdd(){
         boolean check = true;
@@ -30,16 +47,16 @@ public class JsonController {
             }
         }
         if(taskMap.containsKey(numEx)){
-            System.out.println("model.Task with this number already exists. Rewrite it?(Y/N): ");
+            System.out.println("Task with this number already exists. Rewrite it?(Y/N): ");
             String answer = sc.next();
-            if(answer.toLowerCase().equals("y")){
+            if(answer.equalsIgnoreCase("y")){
                 System.out.print("Enter exercise description: ");
                 sc.nextLine();
                 String descriptionEx = sc.nextLine();
                 Task task = new Task(numEx, descriptionEx);
                 taskMap.put(task.getId(), task);
             }else{
-                System.out.println("model.Task not added");
+                System.out.println("Task not added");
             }
         }else{
             System.out.print("Enter exercise description: ");
@@ -56,7 +73,7 @@ public class JsonController {
     }
 
     public void actionSave(){
-        fileHelper.writeToJSON(taskMap);
+        jsonHelper.writeToJSON(taskMap);
         System.out.println("File saved!");
     }
 
@@ -80,10 +97,10 @@ public class JsonController {
         while (true){
             System.out.print("Do you want to save file?(Y/N): ");
             String choose = sc.next();
-            if(choose.toLowerCase().equals("y")){
+            if(choose.equalsIgnoreCase("y")){
                 actionSave();
                 System.exit(0);
-            }else if(choose.toLowerCase().equals("n")) {
+            }else if(choose.equalsIgnoreCase("n")) {
                 System.exit(0);
             }else {
                 System.out.print("It's not a right symbol! Try again: ");

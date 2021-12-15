@@ -1,13 +1,11 @@
-import controller.JsonController;
 import view.ConsoleView;
 
 public class Main {
     public static void main(String[] args) {
         ConsoleView view = new ConsoleView();
-        JsonController controller = new JsonController();
-        controller.copyingMap();
+        String check = view.chooseSaveMethod();
         while(true){
-            view.printMenu(view.chooseSaveMethod());
+            view.printMenu(check);
         }
     }
 }

@@ -13,15 +13,12 @@ public class JsonHelper {
     private ObjectMapper mapper = new ObjectMapper();
     private ObjectWriter writer = mapper.writer(new DefaultPrettyPrinter());
 
-    public Map<Integer, Task> fillMapFromJSON(){
-        Map<Integer, Task> map = new HashMap<>();
+    public void fillMap(Map<Integer, Task> taskMap){
         try{
-            map = (Map<Integer, Task>) mapper.readValue(Paths.get("tasks.json").toFile(), Map.class);
-            return map;
+            taskMap = (Map<Integer, Task>) mapper.readValue(Paths.get("tasks.json").toFile(), Map.class);
         }catch(Exception ex){
             ex.printStackTrace();
         }
-        return map;
     }
 
     public void writeToJSON(Map<Integer, Task> map){
