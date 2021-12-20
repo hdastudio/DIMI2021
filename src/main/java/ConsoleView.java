@@ -2,6 +2,7 @@ import java.util.Scanner;
 
 public class ConsoleView {
 
+    Task task;
     TaskController taskController;
     SQLManager sqlManager = new SQLManager();
     FileManager fileManager = new FileManager();
@@ -75,7 +76,7 @@ public class ConsoleView {
 
                 case 5:
                     System.out.println("Выбрано меню " + menuItem);
-                    sqlManager.writeSQL(this.taskController.taskList);
+                    taskController.saveTaskListToDB();
                     break;
 
                 case 6:
