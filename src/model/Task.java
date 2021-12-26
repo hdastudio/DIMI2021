@@ -27,9 +27,9 @@ public class Task {
 
     @Override
     public String toString() {
-        return "model.Task{" +
-                "id=" + id +
-                ", description='" + description + '\'' +
-                '}';
+        return  "{" +
+                "\n\ttaskNum: " + id +
+                "\n\ttaskDescription: " + description +
+                "\n}";
     }
 }

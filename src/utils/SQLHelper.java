@@ -29,7 +29,18 @@ public class SQLHelper {
         System.out.print("Enter exercise description: ");
         sc.nextLine();
         String descriptionEx = sc.nextLine();
-        insertRequest(numEx, descriptionEx);
+        Task task = new Task(numEx, descriptionEx);
+        int sizeMap = taskMap.size();
+        taskMap.put(sizeMap + 1, task);
+        try (Connection connection = DriverManager.getConnection(url, user, password)){
+            String sqlRequest = "INSERT INTO Task_list (NAME, DESCRIPTION) Values(?, ?)";
+            PreparedStatement preparedStatement = connection.prepareStatement(sqlRequest);
+            preparedStatement.setInt(1, task.getId());
+            preparedStatement.setString(2, task.getDescription());
+            preparedStatement.executeUpdate();
+        }catch (Exception exception){
+            System.out.println(exception);
+        }
     }
 
     public void displayTaskList(){
@@ -39,8 +50,8 @@ public class SQLHelper {
             ResultSet resultSet = preparedStatement.executeQuery();
             while(resultSet.next()){
                 System.out.println("id: " + resultSet.getString(1) +
-                        "task_number: " + resultSet.getString(2) +
-                        "task_description" + resultSet.getString(3));
+                        ".\ttask_number: " + resultSet.getString(2) +
+                        ".\ttask_description: " + resultSet.getString(3));
             }
         }catch (Exception exception){
             System.out.println("Connection failed...");
@@ -50,7 +61,7 @@ public class SQLHelper {
     public void deleteTask(Map<Integer, Task> taskMap){
         boolean check = true;
         Integer numEx = null;
-        System.out.println("Enter number of exercise to delete:");
+        System.out.println("Enter id of exercise to delete:");
         while (check){
             if(sc.hasNextInt()){
                 numEx = sc.nextInt();
@@ -60,9 +71,10 @@ public class SQLHelper {
                 sc.nextLine();
             }
         }
+        taskMap.remove(numEx);
         try(Connection connection = DriverManager.getConnection(url, user, password)){
-            String sqlRequest = "DELETE FROM Task_list WHERE Task_ID = numEx";
-            PreparedStatement preparedStatement = connection.prepareStatement(sqlRequest);
+            String sqlRequest = "DELETE FROM Task_list WHERE ID = ";
+            PreparedStatement preparedStatement = connection.prepareStatement(sqlRequest + numEx);
             ResultSet resultSet = preparedStatement.executeQuery();
         }catch (Exception ex){
             System.out.println("Connection failed...");
@@ -81,8 +93,8 @@ public class SQLHelper {
             while (resultSet.next()){
                 taskMap.put(
                         resultSet.getInt("ID"),
-                        new Task(resultSet.getInt("TASK_ID"),
-                        resultSet.getString("TASK_DESCRIPTION"))
+                        new Task(resultSet.getInt("NAME"),
+                        resultSet.getString("DESCRIPTION"))
                 );
             }
         }catch (Exception exception){
@@ -90,15 +102,7 @@ public class SQLHelper {
         }
     }
 
-    public void insertRequest(Integer id, String description){
-        try (Connection connection = DriverManager.getConnection(url, user, password)){
-            String sqlRequest = "INSERT INTO Task_list (TASK_ID, TASK_DESCRIPTION) Values (?, ?)";
-            PreparedStatement preparedStatement = connection.prepareStatement(sqlRequest);
-            preparedStatement.setInt(1, id);
-            preparedStatement.setString(2, description);
-            preparedStatement.executeUpdate();
-        }catch (Exception exception){
-            System.out.println("Connection failed...");
-        }
+    public void insertRequest(int id, Integer num, String description){
+
     }
 }

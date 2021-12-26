@@ -1,5 +1,6 @@
 package utils;
 
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.core.util.DefaultPrettyPrinter;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectWriter;
@@ -16,11 +17,11 @@ public class JsonHelper {
     private ObjectWriter writer = mapper.writer(new DefaultPrettyPrinter());
     Scanner sc = new Scanner(System.in);
 
-    public void fillMap(Map<Integer, Task> taskMap){
+    public Map<Integer, Task> readTasksFromFile(){
         try{
-            taskMap = (Map<Integer, Task>) mapper.readValue(Paths.get("tasks.json").toFile(), Map.class);
+            return (Map<Integer, Task>) mapper.readValue(Paths.get("tasks.json").toFile(), Map.class);
         }catch(Exception ex){
-            ex.printStackTrace();
+            return new HashMap<Integer, Task>();
         }
     }
 
@@ -51,6 +52,12 @@ public class JsonHelper {
         String descriptionEx = sc.nextLine();
         Task task = new Task(numEx, descriptionEx);
         taskMap.put(taskMap.size() + 1, task);
+    }
+
+    public void displayTaskList(Map<Integer, Task> taskMap){
+        for(Map.Entry<Integer, Task> task: taskMap.entrySet()){
+            System.out.println("id: " + task.getKey() + "\n" + task.getValue());
+        }
     }
 
     public void deleteTask(Map<Integer, Task> taskMap){

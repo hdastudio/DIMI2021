@@ -25,7 +25,7 @@ public class Controller {
 
     public void fillMap(){
         if(saveMethod.equalsIgnoreCase("JSON")){
-            jsonHelper.fillMap(taskMap);
+            taskMap = jsonHelper.readTasksFromFile();
         }else if(saveMethod.equalsIgnoreCase("DataBase")){
             sqlHelper.fillMap(taskMap);
         }
@@ -42,7 +42,7 @@ public class Controller {
 
     public void actionDisplay(){
         if(saveMethod.equalsIgnoreCase("JSON")){
-            System.out.println(taskMap);
+            jsonHelper.displayTaskList(taskMap);
         }else if(saveMethod.equalsIgnoreCase("DataBase")){
             sqlHelper.displayTaskList();
         }
