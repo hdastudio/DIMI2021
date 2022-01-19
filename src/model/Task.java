@@ -1,20 +1,20 @@
 package model;
 
 public class Task {
-    Integer id;
+    String name;
     String description;
 
-    public Task(Integer id, String description) {
-        this.id = id;
+    public Task(String name, String description) {
+        this.name = name;
         this.description = description;
     }
 
-    public Integer getId() {
-        return id;
+    public String getName() {
+        return name;
     }
 
-    public void setId(Integer id) {
-        this.id = id;
+    public void setName(String name) {
+        this.name = name;
     }
 
     public String getDescription() {
@@ -28,7 +28,7 @@ public class Task {
     @Override
     public String toString() {
         return  "{" +
-                "\n\ttaskNum: " + id +
+                "\n\ttaskNum: " + name +
                 "\n\ttaskDescription: " + description +
                 "\n}";
     }

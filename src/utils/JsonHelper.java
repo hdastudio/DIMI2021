@@ -36,21 +36,12 @@ public class JsonHelper {
 
     public void addTask(Map<Integer, Task> taskMap){
         boolean check = true;
-        Integer numEx = null;
-        System.out.print("Enter number of exercise: ");
-        while (check){
-            if(sc.hasNextInt()){
-                numEx = sc.nextInt();
-                check = false;
-            }else{
-                System.out.println("It's not a number! Try again:");
-                sc.nextLine();
-            }
-        }
+        String nameEx = null;
+        System.out.print("Enter name of exercise: ");
+        nameEx = sc.next();
         System.out.print("Enter exercise description: ");
-        sc.nextLine();
-        String descriptionEx = sc.nextLine();
-        Task task = new Task(numEx, descriptionEx);
+        String descriptionEx = sc.next();
+        Task task = new Task(nameEx, descriptionEx);
         taskMap.put(taskMap.size() + 1, task);
     }
 
