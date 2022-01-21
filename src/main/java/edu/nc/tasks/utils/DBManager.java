@@ -6,15 +6,17 @@ import java.sql.*;
  * The database controller
  */
 public class DBManager {
-    private String address;
-    private String port;
-    private String username;
-    private String password;
-    private String SID;
+    private String address = "sql.edu-netcracker.com";
+    private String port = "1251";
+    private String username = "TLT_25";
+    private String password = "TLT_25";
+    private String SID = "xe";
     private String driver = "jdbc:oracle:thin";
 
     private Connection con;
     private Statement stat;
+
+    public DBManager() {}
 
     /**
      * Instantiates a new database manager
@@ -108,7 +110,7 @@ public class DBManager {
      */
     public ResultSet getAllTasks() throws SQLException {
 
-        return stat.executeQuery("select * from sss_tasks");
+        return stat.executeQuery("select * from temp_user");
     }
 
     /**
@@ -122,7 +124,7 @@ public class DBManager {
      */
     public boolean rowExists(int row) throws SQLException {
 
-        ResultSet rs = stat.executeQuery("select * from sss_tasks where idnum = " + row);
+        ResultSet rs = stat.executeQuery("select * from temp_user where idnum = " + row);
         if (rs.next()) {
             return true;
         } else {
@@ -139,7 +141,7 @@ public class DBManager {
      */
     public void insert(int key, String task) throws SQLException {
 
-        String qs = "insert into sss_tasks values(?, ?)";
+        String qs = "insert into temp_user values(?, ?)";
         PreparedStatement q = con.prepareStatement(qs);
         q.setInt(1, key);
         q.setString(2, task);
@@ -158,7 +160,7 @@ public class DBManager {
      */
     public void update(int key, String task)  throws SQLException {
 
-        String qs = "update sss_tasks set task=? where idnum=?";
+        String qs = "update temp_user set task=? where idnum=?";
         PreparedStatement q = con.prepareStatement(qs);
         q.setString(1, task);
         q.setInt(2, key);
@@ -176,7 +178,7 @@ public class DBManager {
      */
     public void delete(int key) throws SQLException {
 
-        String qs = "delete from sss_tasks where idnum=?";
+        String qs = "delete from temp_user where idnum=?";
         PreparedStatement q = con.prepareStatement(qs);
         q.setInt(1, key);
 
