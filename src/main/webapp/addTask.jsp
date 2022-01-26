@@ -1,12 +1,12 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
-    <title>Title</title>
+    <title>Lab3 - Add Task</title>
 </head>
 <body>
 
-<h1>Add task jsp</h1>
-
+<h1>Add Task</h1>
+<p>
 <form method="post" action="TaskController">
     <input type="hidden" name="action" value="add">
 

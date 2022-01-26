@@ -1,46 +1,35 @@
 package edu.nc.tasks.controllers;
 
 import java.io.*;
-import java.sql.SQLException;
-import java.util.HashMap;
+import java.util.List;
 
-import edu.nc.tasks.utils.DBManager;
-import jakarta.servlet.RequestDispatcher;
+import edu.nc.tasks.models.Task;
+import edu.nc.tasks.utils.StorageException;
+import edu.nc.tasks.repositories.TaskRepository;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.*;
 import jakarta.servlet.annotation.*;
 
-import static java.lang.Integer.parseInt;
-
 @WebServlet(name = "TaskController", value = "TaskController")
 public class TasklistServlet extends HttpServlet {
     private TasklistManager controller;
-    private DBManager db;
 
     public void init() {
-
-        controller = new TasklistManager(new DBManager());
-
+        controller = new TasklistManager(new TaskRepository());
     }
 
     public void doGet(HttpServletRequest req, HttpServletResponse res) throws IOException, ServletException {
-
-        System.out.println("ewe");
         try {
-            controller.openDB();
-
-            HashMap<Integer, String> tasklist = controller.getTasks();
-
-            controller.closeDB();
+            List<Task> tasklist = controller.getTasks();
 
             req.setAttribute("tasklist", tasklist);
             req.getRequestDispatcher("showTasks.jsp").forward(req, res);
-
-        } catch (SQLException e) {
+        } catch (StorageException e) {
             System.out.println("------------------------------------->");
             e.printStackTrace();
-            //req.getRequestDispatcher("error.html").forward(req, res);
 
+            req.setAttribute("error", e);
+            req.getRequestDispatcher("error.jsp").forward(req, res);
         }
     }
 
@@ -52,10 +41,7 @@ public class TasklistServlet extends HttpServlet {
         try {
             switch (action) {
                 case "add": {
-
-                    controller.openDB();
-
-                    int taskn = parseInt(req.getParameter("taskn"));
+                    String taskn = req.getParameter("taskn");
                     String taskc = req.getParameter("taskc");
 
                     //check if task # already exists
@@ -66,93 +52,70 @@ public class TasklistServlet extends HttpServlet {
                         req.setAttribute("msg", "Задача успешно добавлена!");
                     }
 
-                    controller.closeDB();
-
                     req.getRequestDispatcher("addTask.jsp").forward(req, res);
 
                     break;
                 }
                 case "edit": {
-
-                    controller.openDB();
-
-                    int id = parseInt(req.getParameter("taskn"));
-                    int oldid = parseInt(req.getParameter("oldn"));
+                    String id = req.getParameter("taskn");
+                    String oldid = req.getParameter("oldn");
                     String task = req.getParameter("taskc");
 
-                    if (id == oldid) {
-
+                    if (id.equals(oldid)) {
                         controller.editTask(id, task);
 
+                        List<Task> tasklist = controller.getTasks();
+                        req.setAttribute("tasklist", tasklist);
                         req.setAttribute("msg", "Задача успешно изменена!");
 
-                        HashMap<Integer, String> tasklist = controller.getTasks();
-                        req.setAttribute("tasklist", tasklist);
-
-                        controller.closeDB();
-
                         req.getRequestDispatcher("showTasks.jsp").forward(req, res);
-
                     } else {
-
                         if (controller.existsTask(id)) {
-
                             req.setAttribute("msg", "Задача с этим номером уже существует!");
+                            req.setAttribute("oldn", oldid);
                             req.setAttribute("taskc", task);
                             req.setAttribute("taskn", id);
-
-                            controller.closeDB();
-
                             req.getRequestDispatcher("editTask.jsp").forward(req, res);
-
                         } else {
-
                             controller.addTask(id, task);
                             controller.removeTask(oldid);
 
+                            List<Task> tasklist = controller.getTasks();
+                            req.setAttribute("tasklist", tasklist);
                             req.setAttribute("msg", "Задача успешно изменена!");
 
-                            HashMap<Integer, String> tasklist = controller.getTasks();
-                            req.setAttribute("tasklist", tasklist);
-
-                            controller.closeDB();
-
                             req.getRequestDispatcher("showTasks.jsp").forward(req, res);
-
                         }
-
                     }
 
+                    break;
                 }
                 case "delete": {
-
-                    int id = parseInt(req.getParameter("taskn"));
-
-                    controller.openDB();
+                    String id = req.getParameter("taskn");
 
                     controller.removeTask(id);
 
-                    req.setAttribute("msg", "Задача успешно удалена!");
-
-                    HashMap<Integer, String> tasklist = controller.getTasks();
+                    List<Task> tasklist = controller.getTasks();
                     req.setAttribute("tasklist", tasklist);
-
-                    controller.closeDB();
+                    req.setAttribute("msg", "Задача успешно удалена!");
 
                     req.getRequestDispatcher("showTasks.jsp").forward(req, res);
 
+                    break;
                 }
                 default: {
+                    req.setAttribute("error", "dunno m8");
+                    req.getRequestDispatcher("error.jsp").forward(req, res);
 
+                    break;
                 }
             }
-        } catch (SQLException e) {
+        } catch (StorageException e) {
             System.out.println("------------------------------------->");
             e.printStackTrace();
-            //req.getRequestDispatcher("error.html").forward(req, res);
 
+            req.setAttribute("error", e);
+            req.getRequestDispatcher("error.jsp").forward(req, res);
         }
-
     }
-
 }
