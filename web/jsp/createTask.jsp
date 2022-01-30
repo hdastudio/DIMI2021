@@ -19,6 +19,8 @@
             <input type="text" id="taskDescription"><br><br>
 
             <button style="height: 25px; width: 75px" type="submit">Create</button>
+
+            <p><a href="/">Back...</a>
         </form>
     </body>
 </html>

@@ -12,7 +12,7 @@
 <form>
     <p><a href="jsp/createTask.jsp">1.Create task</a><br>
     <a href="jsp/updateTask.jsp">2.Update task</a><br>
-    <a href="jsp/displayTasks.jsp">3.Display task</a><br>
+    <a href="jsp/displayTask.jsp">3.Display task</a><br>
     <a href="jsp/deleteTask.jsp">4.Delete task</a><br></p>
 </form>
 </body>

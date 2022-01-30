@@ -6,12 +6,11 @@
     
     <servlet>
         <servlet-name>Controller</servlet-name>
-        <servlet-class>servlet.MainServlet</servlet-class>
+        <servlet-class>servlet.TaskServlet</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>Controller</servlet-name>
         <url-pattern>/home</url-pattern>
     </servlet-mapping>
-
 
 </web-app>

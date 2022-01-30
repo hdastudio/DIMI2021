@@ -14,7 +14,7 @@ public class SQLHelper {
     private final String password = "TLT_24";
     Scanner sc = new Scanner(System.in);
 
-    public void addTask(String name, String description){
+    public void createTask(String name, String description){
         try (Connection connection = DriverManager.getConnection(url, user, password)){
             String sqlRequest = "INSERT INTO Task (ID, NAME, DESCRIPTION) Values(task_list_seq.NEXTVAL, ?, ?)";
             PreparedStatement preparedStatement = connection.prepareStatement(sqlRequest);
@@ -24,6 +24,24 @@ public class SQLHelper {
         }catch (Exception exception){
             System.out.println(exception);
         }
+    }
+
+    public String displayTask(int id) {
+        String task = null;
+        try (Connection connection = DriverManager.getConnection(url, user, password)) {
+            String sqlRequest = "SELECT * FROM Task WHERE ID = ?";
+            PreparedStatement preparedStatement = connection.prepareStatement(sqlRequest);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()) {
+                Integer identification = resultSet.getInt(1);
+                String taskName = resultSet.getString(2);
+                String taskDescription = resultSet.getString(3);
+                task += identification + " " + taskName + " " + taskDescription;
+            }
+        } catch (Exception exception) {
+            System.out.println("Connection failed...");
+        }
+        return task;
     }
 
     public Map<Integer, Task> displayTaskList(){

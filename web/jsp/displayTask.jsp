@@ -8,9 +8,16 @@
         </style>
     </head>
     <body>
-        <h1>Tasks:</h1>
+        <h1>Task:</h1>
         <form action="Controller" method="post">
+            <input type="hidden" id="method" value="displayTask">
 
+            <p><label>ID: </label>
+            <input type="number" id="taskId"><br><br>
+
+            <button style="height: 25px; width: 75px" type="submit">Display</button>
+
+            <p><a href="/">Back...</a>
         </form>
     </body>
 </html>

@@ -10,6 +10,8 @@
     <body>
     <h1>Create task:</h1>
         <form method="post" action="Controller">
+            <input type="hidden" id="method" value="createTask">
+
             <p><label>Name: </label>
             <input type="text" id="taskName"><br>
 
@@ -17,6 +19,8 @@
             <input type="text" id="taskDescription"><br><br>
 
             <button style="height: 25px; width: 75px" type="submit">Create</button>
+
+            <p><a href="/">Back...</a>
         </form>
     </body>
 </html>

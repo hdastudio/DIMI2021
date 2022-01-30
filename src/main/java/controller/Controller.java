@@ -21,18 +21,16 @@ public class Controller {
     }
 
     public void actionAdd(String name, String description){
-        sqlHelper.addTask(name, description);
+        sqlHelper.createTask(name, description);
     }
 
-    public Map<Integer, Task> actionDisplay(){
+    public Map<Integer, Task> actionDisplayList(){
         return sqlHelper.displayTaskList();
     }
+
+    public String actionDisplayTask(int id){ return sqlHelper.displayTask(id); }
 
     public void actionDelete(int id){
         sqlHelper.deleteTask(id);
     }
-
-//    public void actionExit(){
-//        sqlHelper.closeProgram();
-//    }
 }
