@@ -30,7 +30,7 @@ public class ConsoleView {
                 +"\n"
                 + "5 Удалить задачу"
                 +"\n"
-                + "8 Выход"
+                + "6 Выход"
         );
         System.out.println("Выберите нужный пункт меню");
         menuItem = scan.nextInt();
@@ -46,17 +46,18 @@ public class ConsoleView {
             int menuItem = chooseMenuItem();
 
             switch (menuItem) {
+
                 case 1:
                     System.out.println("Выбрано меню " + menuItem);
 
                     System.out.println("Введиде уникальный номер задачи");
-                    int id = scan.nextInt();
+                    int id1 = scan.nextInt();
                     System.out.println("Введите название задачи");
                     String name = scan.next();
                     System.out.println("Введите описание задачи");
                     String description = scan.next();
                     try {
-                        taskController.createTask(id, name, description);
+                        taskController.createTask(id1, name, description);
                         System.out.println("Задача успешно создана");
                     }
                     catch (Exception e){
@@ -64,6 +65,7 @@ public class ConsoleView {
                     }
 
                     break;
+
                 case 2:
                     System.out.println("Выбрано меню " + menuItem);
                     Map<Integer, Task> taskList = taskController.getTaskList();
@@ -74,33 +76,50 @@ public class ConsoleView {
                         System.out.println(task.getId() + " | "+ task.getName() + " | " + task.getDescription());
                     }
                     break;
-//                case 3:
-//                    System.out.println("Выбрано меню " + menuItem);
-//                    sqlManager.readSQL();
-//                    break;
-//                case 4:
-//                    System.out.println("Выбрано меню " + menuItem);
-//                    fileManager.writeJSON(this.taskController.getTaskList());
-//                    break;
-//                case 5:
-//                    System.out.println("Выбрано меню " + menuItem);
-//                    taskController.saveTaskListToDB();
-//                    break;
-//                case 6:
-//                    System.out.println("Выбрано меню " + menuItem);
-//                    fileManager.deliteJSON();
-//                    break;
-//                case 7:
-//                    System.out.println("Выбрано меню " + menuItem);
-//                    sqlManager.deleteSQL();
-//                    break;
-//                case 8:
-//                    System.out.println("Выбрано меню " + menuItem);
-//                    System.exit(1);
-//                    break;
-//                default:
-//                    System.out.println("Такого в меню нет");
-//                    break;
+
+                case 3:
+                    System.out.println("Выбрано меню " + menuItem);
+                    System.out.println("Введите идентификатор задачи для ее отображения");
+                    Integer id = Integer.valueOf(scan.nextInt());
+                    System.out.println("ID | NAME | DESCRIPTION");
+                    System.out.println(taskController.getTask(id));
+
+                    break;
+
+                case 4:
+                    System.out.println("Выбрано меню " + menuItem);
+                    System.out.println("Введите идентификатор задачи для ее редактирования");
+                    int taskId = scan.nextInt();
+
+                    // Шаг 1. Получить задачу из БД (Проверить, что она существет)
+                    System.out.println(taskController.getTask(taskId));
+
+                    // Шаг 2. Запросить новые имя и описание
+
+                    System.out.println("Введите новое название задачи");
+                    String newName = scan.next();
+                    System.out.println("Введите новое описание задачи");
+                    String newDescription = scan.next();
+
+                    // Шаг 3. Вызвать метод обновления задачи
+                    taskController.updateTask(taskId, newName, newDescription);
+                    System.out.println("ID | NAME | DESCRIPTION");
+                    System.out.println(taskId +"|"+ newName +"|"+ newDescription);
+                    break;
+
+                case 5:
+                    System.out.println("Выбрано меню " + menuItem);
+                    System.out.println("Введите идентификатор задачи для ее удаления");
+                    Integer id2 = Integer.valueOf(scan.nextInt());
+                    taskController.deleteTask(id2);
+                    break;
+                case 8:
+                    System.out.println("Выбрано меню " + menuItem);
+                    System.exit(1);
+                    break;
+                default:
+                    System.out.println("Такого в меню нет");
+                    break;
             }
         }
     }

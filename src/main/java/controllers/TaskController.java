@@ -39,10 +39,15 @@ public class TaskController {
     }
 
     public void updateTask(Integer taskId, String newName, String newDescription) {
-        taskRepository.updateTask(new Task(taskId, newName, newDescription));
+        Task updatedTask = new Task(taskId, newName, newDescription);
+
+        taskList.put(taskId, updatedTask);
+
+        taskRepository.updateTask(updatedTask);
     }
 
     public void deleteTask(Integer id) {
+        taskList.remove(id);
         taskRepository.deleteTask(id);
     }
 
