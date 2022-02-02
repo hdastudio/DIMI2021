@@ -7,8 +7,8 @@
 
 <h1>Main Menu</h1>
 <p>
-<a href="addTask.jsp">Добавить задачу</a> <br>
-<a href="TaskController">Отобразить задачи</a>
+<a href="/addTask">Добавить задачу</a> <br>
+<a href="/showTasks">Отобразить задачи</a>
 
 </body>
 </html>

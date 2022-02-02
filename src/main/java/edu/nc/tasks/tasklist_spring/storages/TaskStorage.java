@@ -1,8 +1,8 @@
-package edu.nc.tasks.storages;
+package edu.nc.tasks.tasklist_spring.storages;
 
-import edu.nc.tasks.models.Task;
-import edu.nc.tasks.utils.JDBCException;
-import edu.nc.tasks.utils.StorageException;
+import edu.nc.tasks.tasklist_spring.models.Task;
+import edu.nc.tasks.tasklist_spring.utils.JDBCException;
+import edu.nc.tasks.tasklist_spring.utils.StorageException;
 
 import java.sql.*;
 import java.util.ArrayList;

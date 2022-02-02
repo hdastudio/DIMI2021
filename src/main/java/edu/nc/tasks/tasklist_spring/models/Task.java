@@ -1,8 +1,13 @@
-package edu.nc.tasks.models;
+package edu.nc.tasks.tasklist_spring.models;
 
 public class Task {
     private int id;
     private String task;
+
+    public Task() {
+        this.id = 0;
+        this.task = "";
+    }
 
     public Task(int id, String task) {
         this.id = id;

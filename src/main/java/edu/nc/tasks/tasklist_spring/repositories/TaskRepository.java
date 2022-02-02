@@ -1,8 +1,8 @@
-package edu.nc.tasks.repositories;
+package edu.nc.tasks.tasklist_spring.repositories;
 
-import edu.nc.tasks.models.Task;
-import edu.nc.tasks.utils.StorageException;
-import edu.nc.tasks.storages.TaskStorage;
+import edu.nc.tasks.tasklist_spring.models.Task;
+import edu.nc.tasks.tasklist_spring.utils.StorageException;
+import edu.nc.tasks.tasklist_spring.storages.TaskStorage;
 
 import java.util.List;
 

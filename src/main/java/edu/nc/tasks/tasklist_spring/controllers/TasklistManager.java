@@ -1,9 +1,10 @@
-package edu.nc.tasks.controllers;
+package edu.nc.tasks.tasklist_spring.controllers;
 
-import edu.nc.tasks.models.Task;
-import edu.nc.tasks.utils.StorageException;
-import edu.nc.tasks.repositories.TaskRepository;
+import edu.nc.tasks.tasklist_spring.models.Task;
+import edu.nc.tasks.tasklist_spring.utils.StorageException;
+import edu.nc.tasks.tasklist_spring.repositories.TaskRepository;
 
+import java.sql.SQLException;
 import java.util.List;
 
 public class TasklistManager {
@@ -17,6 +18,12 @@ public class TasklistManager {
 
     public void addTask(String id, String task) throws StorageException {
         rep.insert(new Task(id, task));
+
+        return;
+    }
+
+    public void addTask(Task task) throws StorageException {
+        rep.insert(task);
 
         return;
     }
