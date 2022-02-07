@@ -1,0 +1,7 @@
+10-Jan-2022 00:18:14.715 INFO [http-nio-8080-exec-5] org.apache.catalina.core.ApplicationContext.log HTMLManager: init: Associated with Deployer 'Catalina:type=Deployer,host=localhost'
+10-Jan-2022 00:18:14.715 INFO [http-nio-8080-exec-5] org.apache.catalina.core.ApplicationContext.log HTMLManager: init: Global resources are available
+10-Jan-2022 00:18:14.735 INFO [http-nio-8080-exec-5] org.apache.catalina.core.ApplicationContext.log HTMLManager: list: Listing contexts for virtual host 'localhost'
+10-Jan-2022 00:23:17.554 INFO [http-nio-8080-exec-2] org.apache.catalina.core.ApplicationContext.log HTMLManager: install: Installing web application 'D:\ServletApp' from 'D:\ServletApp'
+10-Jan-2022 00:23:17.554 INFO [http-nio-8080-exec-2] org.apache.catalina.core.ApplicationContext.log HTMLManager: list: Listing contexts for virtual host 'localhost'
+10-Jan-2022 00:23:21.907 INFO [http-nio-8080-exec-7] org.apache.catalina.core.ApplicationContext.log HTMLManager: install: Installing web application 'D:\ServletApp' from 'D:\ServletApp'
+10-Jan-2022 00:23:21.907 INFO [http-nio-8080-exec-7] org.apache.catalina.core.ApplicationContext.log HTMLManager: list: Listing contexts for virtual host 'localhost'
