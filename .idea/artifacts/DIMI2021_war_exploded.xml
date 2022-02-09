@@ -7,6 +7,9 @@
         <element id="directory" name="classes">
           <element id="module-output" name="DIMI2021" />
         </element>
+        <element id="directory" name="lib">
+          <element id="library" level="project" name="Maven: javax.servlet.jsp.jstl:jstl-api:1.2" />
+        </element>
       </element>
     </root>
   </artifact>

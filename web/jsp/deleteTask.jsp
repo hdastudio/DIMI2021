@@ -11,7 +11,7 @@
         <h1>Delete task:</h1>
         <form method="post" action="Controller">
             <p><label>ID: </label>
-            <input type="number" id="taskId"><br><br>
+            <input type="number" name="taskId"><br><br>
 
             <button style="height: 25px; width: 75px" type="submit">Delete</button>
         </form>

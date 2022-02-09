@@ -9,21 +9,21 @@
     </head>
     <body>
         <h1>Update task:</h1>
-        <form method="post" action="Controller">
-            <input type="hidden" id="method" value="updateTask">
+        <form method="post" action="/dimi2021/task">
+            <input type="hidden" name="method" value="updateTask">
 
             <p><label>ID: </label>
-            <p><input type="number" id="taskId"><br><br>
+            <input type="number" name="taskId"><br>
 
             <p><label>Name: </label>
-            <input type="text" id="taskName"><br>
+            <input type="text" name="taskName"><br>
 
             <p><label>Description: </label>
-            <input type="text" id="taskDescription"><br><br>
+            <input type="text" name="taskDescription"><br><br>
 
             <button style="height: 25px; width: 75px" type="submit">Update</button>
 
-            <p><a href="/">Back...</a>
+            <p><a href="/dimi2021">Back...</a>
         </form>
     </body>
 </html>

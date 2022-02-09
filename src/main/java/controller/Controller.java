@@ -24,11 +24,13 @@ public class Controller {
         sqlHelper.createTask(name, description);
     }
 
-    public Map<Integer, Task> actionDisplayList(){
-        return sqlHelper.displayTaskList();
+    public Map<Integer, Task> actionGetList(){
+        return sqlHelper.getTaskList();
     }
 
-    public String actionDisplayTask(int id){ return sqlHelper.displayTask(id); }
+    public String actionGetTask(int id){ return sqlHelper.getTask(id); }
+
+    public void actionUpdate(int id, String name, String description){ sqlHelper.updateTask(id, name, description); }
 
     public void actionDelete(int id){
         sqlHelper.deleteTask(id);
