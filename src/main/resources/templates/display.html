@@ -1,0 +1,57 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <title>Tasks</title>
+        <style>
+                h1 { font-size: 36px; }
+                p { font-size: 18px; }
+                table {
+                    font-family: "Lucida Sans Unicode", "Lucida Grande", Sans-Serif;
+                    font-size: 14px;
+                    border-collapse: collapse;
+                    text-align: center;
+                }
+                th, td:first-child {
+                    background: #20B2AA;
+                    color: white;
+                    padding: 10px 20px;
+                }
+                th, td {
+                    border-style: solid;
+                    border-width: 0 1px 1px 0;
+                    border-color: white;
+                }
+                td {
+                    background: #D8E6F3;
+                }
+                th:first-child, td:first-child {
+                    text-align: left;
+                }
+        </style>
+    </head>
+    <body>
+        <h1>Tasks:</h1>
+        <table>
+            <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Description</th>
+                <th>Action</th>
+            </tr>
+            <div th:each="task : ${tasks}">
+                <tr>
+                    <td><p th:text="${task.id}"/></td>
+                    <td><p th:text="${task.name}"/></td>
+                    <td><p th:text="${task.description}"/></td>
+                    <td>
+                        <form method="post" action="/deleteTask">
+                            <input type="hidden" name="id" th:value="${task.id}"><br>
+                            <button style="height: 25px; width: 75px" type="submit">Delete</button>
+                        </form>
+                    </td>
+                </tr>
+            </div>
+        </table>
+        <p><a href="/">Back...</a>
+    </body>
+</html>
