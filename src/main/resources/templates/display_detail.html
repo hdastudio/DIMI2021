@@ -1,8 +1,8 @@
 <!DOCTYPE HTML>
 <html xmlns:th="http://www.thymeleaf.org">
-    <head>
-        <title>Tasks</title>
-        <style>
+<head>
+    <title>Tasks</title>
+    <style>
                 h1 { font-size: 36px; }
                 p { font-size: 18px; }
                 table {
@@ -28,25 +28,30 @@
                     text-align: left;
                 }
         </style>
-    </head>
-    <body>
-        <h1>Tasks:</h1>
-        <table>
-            <tr>
-                <th>ID</th>
-                <th>Name</th>
-                <th>Details</th>
-            </tr>
-            <div th:each="task : ${tasks}">
-                <tr>
-                    <td><p th:text="${task.id}"/></td>
-                    <td><p th:text="${task.name}"/></td>
-                    <td>
-                        <a th:href="'/displayTasks/' + ${task.id}">Подробнее</a>
-                    </td>
-                </tr>
-            </div>
-        </table>
-        <p><a href="/">Back...</a>
-    </body>
+</head>
+<body>
+<h1>Tasks:</h1>
+<table>
+    <tr>
+        <th>ID</th>
+        <th>Name</th>
+        <th>Description</th>
+        <th>Action</th>
+    </tr>
+    <div th:each="task : ${tasks}">
+        <tr>
+            <td><p th:text="${task.id}"/></td>
+            <td><p th:text="${task.name}"/></td>
+            <td><p th:text="${task.description}"/></td>
+            <td>
+                <form method="post" action="/deleteTask">
+                    <input type="hidden" name="id" th:value="${task.id}"><br>
+                    <button style="height: 25px; width: 75px" type="submit">Delete</button>
+                </form>
+            </td>
+        </tr>
+    </div>
+</table>
+<p><a href="/displayTasks">Back...</a>
+</body>
 </html>
