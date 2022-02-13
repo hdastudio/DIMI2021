@@ -51,7 +51,7 @@ public class HomeController {
         return "redirect:/";
     }
 
-    @GetMapping("/deleteTask")
+    @GetMapping("/deleteTask2")
     public String delete(Model model){
         return "delete";
     }
@@ -59,7 +59,7 @@ public class HomeController {
     @PostMapping("/deleteTask")
     public String deletePost(@RequestParam Long id, Model model){
         taskRepo.deleteById(id);
-        return "redirect:/";
+        return "delete";
     }
 
     @GetMapping("/displayTasks")
