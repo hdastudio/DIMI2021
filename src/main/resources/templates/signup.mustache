@@ -1,10 +1,18 @@
 <!DOCTYPE HTML>
-<html xmlns:th="http://www.thymeleaf.org">
-<head>
-    <title>Login:</title>
-</head>
-<body>
-<input type="text" placeholder="Name">
-<input type="text" placeholder="Password">
-</body>
+<html xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+        <title>Login:</title>
+    </head>
+    <body>
+        <h1  align="center">Registration</h1><br>
+        {{#message}}
+            {{message}}
+        {{/message}}
+        <form action="/signup" method="post">
+            <div><p align="center"><input type="text" name="username" placeholder="Username"/></p></div>
+            <div><p align="center"><input type="password" name="password" placeholder="Password"/></p></div>
+            <input type="hidden" name="_csrf" value="{{_csrf.token}}"/>
+            <div><p align="center"><input type="submit" value="Sign Up"/></p></div>
+        </form>
+    </body>
 </html>
