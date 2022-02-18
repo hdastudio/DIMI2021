@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>Spring Security Example </title>
+    <style>
+        form{
+            background-color: background-color: #303030;
+        }
+    </style>
+</head>
+<body>
+<form action="/login" method="post">
+    <div><p align="center"><input type="text" name="username" placeholder="Username"/></p></div>
+    <div><p align="center"><input type="password" name="password" placeholder="Password"/></p></div>
+    <input type="hidden" name="_csrf" value="{{_csrf.token}}"/>
+    <div><p align="center"><input type="submit" value="Sign In"/></p></div>
+</form>
+</body>
+</html>

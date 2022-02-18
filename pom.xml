@@ -18,10 +18,10 @@
 
     <dependencies>
 
-        <!--Thymeleaf-->
+        <!--Mustache-->
         <dependency>
             <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-thymeleaf</artifactId>
+            <artifactId>spring-boot-starter-mustache</artifactId>
         </dependency>
 
         <!--Spring Web-->
@@ -49,6 +49,12 @@
             <groupId>org.postgresql</groupId>
             <artifactId>postgresql</artifactId>
             <scope>runtime</scope>
+        </dependency>
+
+        <!--Security-->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-security</artifactId>
         </dependency>
 
         <!--Test-->

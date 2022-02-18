@@ -14,8 +14,7 @@ public class LoginController {
     private PersonRepo personRepo;
 
     @GetMapping("/")
-    public String home(@RequestParam String name, Model model){
-        model.addAttribute("name", name);
+    public String home(Model model){
         return "home";
     }
 
