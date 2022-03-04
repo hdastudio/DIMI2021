@@ -2,46 +2,46 @@ package netcracker.controller;
 
 import netcracker.model.Person;
 import netcracker.model.Role;
-import netcracker.repository.PersonRepo;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
+import netcracker.service.PersonService;
+
+import org.springframework.http.MediaType;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.Collections;
 import java.util.Map;
+import java.util.Objects;
 
-@Controller
+@RestController
+@RequestMapping("/auth")
 public class LoginController {
 
-    @Autowired
-    private PersonRepo personRepo;
+    private PersonService personService;
 
-    @GetMapping("/")
-    public String home(){
-        return "home";
+    public LoginController(PersonService personService) {
+        this.personService = personService;
     }
 
-    @GetMapping("/menu")
-    public String menu(){
-        return "menu";
-    }
-
-    @GetMapping("/signup")
-    public String signup(){
-        return "signup";
-    }
-
-    @PostMapping("/signup")
-    public String createAccount(Person person, Map<String, Object> model){
-        Person personFromDb = personRepo.findByUsername(person.getUsername());
-        if(personFromDb != null){
-            model.put("message", "User exists");
-            return "signup";
-        }
+    @PostMapping(path = "/signup", produces = MediaType.APPLICATION_JSON_VALUE)
+    public @ResponseBody Person createPerson(Person person, Map<String, Object> model){
         person.setActive(true);
         person.setRoles(Collections.singleton(Role.USER));
-        personRepo.save(person);
-        return "redirect:/login";
+        Person registeredPerson = personService.saveToDb(person);
+        return registeredPerson;
+    }
+
+    @PostMapping(path = "/login", produces = MediaType.APPLICATION_JSON_VALUE)
+    public @ResponseBody Person getAuthPerson(){
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        if(auth == null){
+            return null;
+        }
+        Object principal = auth.getPrincipal();
+        Person person = (principal instanceof Person) ? (Person) principal : null;
+        return Objects.nonNull(person) ? this.personService.getByLogin(person.getUsername()) : null;
     }
 }
