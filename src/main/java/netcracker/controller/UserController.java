@@ -1,9 +1,9 @@
 package netcracker.controller;
 
 import netcracker.model.User;
-import netcracker.payload.SignUpDto;
-import netcracker.repository.UserRepository;
+import netcracker.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -13,16 +13,16 @@ import java.util.List;
 public class UserController {
 
     @Autowired
-    private UserRepository userRepository;
+    private UserService userService;
 
     @GetMapping("/users")
     public @ResponseBody List<User> getUsers(){
-        return userRepository.findAll();
+        return userService.getUsers();
     }
 
-    @GetMapping("/user")
-    public @ResponseBody User getUser(@RequestParam String username){
-        return userRepository.findByUsername(username);
+    @GetMapping("/users/{id}")
+    public @ResponseBody User getUser(@PathVariable Long id){
+        return userService.getUser(id);
     }
 
 //    @PatchMapping("/user/{id}/update")
@@ -30,9 +30,10 @@ public class UserController {
 //        return userService.updateUser(id, signUpDto);
 //    }
 
-    @DeleteMapping("/user")
-    public @ResponseBody User deleteUser(@RequestParam String username){
-        return userRepository.findByUsername(username);
+    @DeleteMapping("/users/{id}")
+    public ResponseEntity<?> deleteUser(@PathVariable Long id){
+        userService.deleteUser(id);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
 }
