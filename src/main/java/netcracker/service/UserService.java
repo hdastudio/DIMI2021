@@ -1,7 +1,5 @@
 package netcracker.service;
 
-import netcracker.exception_handling.NoSuchUserException;
-import netcracker.exception_handling.UserIncorrectData;
 import netcracker.model.Role;
 import netcracker.model.User;
 import netcracker.payload.LoginDto;
@@ -17,7 +15,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.Collections;
 import java.util.List;
@@ -42,13 +40,34 @@ public class UserService {
     }
 
     public User getUser(Long id){
-
         return userRepository.findById(id)
-                .orElseThrow(() -> new NoSuchUserException("User with ID: " + id + " doesn't exists!"));
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found!"));
     }
 
     public void deleteUser(Long id){
         userRepository.deleteById(id);
+    }
+
+    public ResponseEntity<?> updateUser(Long id, SignUpDto signUpDto){
+        User user = new User();
+        user = userRepository.findById(id)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found!"));
+        user.setUsername(signUpDto.getUsername());
+        user.setEmail(signUpDto.getEmail());
+        user.setPassword(signUpDto.getPassword());
+        userRepository.save(user);
+
+        return new ResponseEntity<>("User updated", HttpStatus.OK);
+    }
+
+    public ResponseEntity<?> addUserRole(Long userId, Long roleId){
+        Role role = roleRepository.findById(roleId)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Role not found!"));
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found!"));
+        user.addRole(role);
+        userRepository.save(user);
+        return new ResponseEntity<>("Role added", HttpStatus.OK);
     }
 
     public ResponseEntity<?> signUpUser(SignUpDto signUpDto){
@@ -66,7 +85,7 @@ public class UserService {
         user.setEmail(signUpDto.getEmail());
         user.setPassword(passwordEncoder.encode(signUpDto.getPassword()));
 
-        Role roles = roleRepository.findByName("ROLE_ADMIN").orElseThrow(IllegalStateException::new);
+        Role roles = roleRepository.findByName("ROLE_USER").orElseThrow(IllegalStateException::new);
         user.setRoles(Collections.singleton(roles));
 
         userRepository.save(user);
@@ -80,13 +99,6 @@ public class UserService {
 
         SecurityContextHolder.getContext().setAuthentication(authentication);
         return new ResponseEntity<>("User signed-in successfully!.", HttpStatus.OK);
-    }
-
-    @ExceptionHandler
-    public ResponseEntity<UserIncorrectData> handlerException(NoSuchUserException exception){
-        UserIncorrectData data = new UserIncorrectData();
-        data.setInfo(exception.getMessage());
-        return new ResponseEntity<>(data, HttpStatus.NOT_FOUND);
     }
 
 }
