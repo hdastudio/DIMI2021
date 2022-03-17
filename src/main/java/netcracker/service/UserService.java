@@ -1,8 +1,10 @@
 package netcracker.service;
 
+import netcracker.model.Profile;
 import netcracker.model.Role;
 import netcracker.model.User;
 import netcracker.payload.LoginDto;
+import netcracker.payload.ProfileDto;
 import netcracker.payload.SignUpDto;
 import netcracker.repository.RoleRepository;
 import netcracker.repository.UserRepository;
@@ -44,20 +46,23 @@ public class UserService {
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found!"));
     }
 
-    public void deleteUser(Long id){
-        userRepository.deleteById(id);
-    }
-
     public ResponseEntity<?> updateUser(Long id, SignUpDto signUpDto){
-        User user = new User();
-        user = userRepository.findById(id)
+        User user = userRepository.findById(id)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found!"));
         user.setUsername(signUpDto.getUsername());
         user.setEmail(signUpDto.getEmail());
         user.setPassword(signUpDto.getPassword());
         userRepository.save(user);
 
-        return new ResponseEntity<>("User updated", HttpStatus.OK);
+        return new ResponseEntity<>("User updated" + user.getId(), HttpStatus.OK);
+    }
+
+    public ResponseEntity<?> deleteUser(Long id){
+        if(!userRepository.existsById(id)){
+            return new ResponseEntity<>("User not found!",HttpStatus.BAD_REQUEST);
+        }
+        userRepository.deleteById(id);
+        return new ResponseEntity<>("User deleted", HttpStatus.OK);
     }
 
     public ResponseEntity<?> addUserRole(Long userId, Long roleId){
@@ -68,6 +73,15 @@ public class UserService {
         user.addRole(role);
         userRepository.save(user);
         return new ResponseEntity<>("Role added", HttpStatus.OK);
+    }
+
+    public ResponseEntity<?> getUserProfile(Long id){
+
+        if(!userRepository.existsById(id)){
+            return new ResponseEntity<>("User not found!", HttpStatus.BAD_REQUEST);
+        }
+        Profile profile = userRepository.getById(id).getProfile();
+        return new ResponseEntity<>(profile, HttpStatus.OK);
     }
 
     public ResponseEntity<?> signUpUser(SignUpDto signUpDto){
@@ -84,6 +98,9 @@ public class UserService {
         user.setUsername(signUpDto.getUsername());
         user.setEmail(signUpDto.getEmail());
         user.setPassword(passwordEncoder.encode(signUpDto.getPassword()));
+        Profile profile = new Profile();
+        user.setProfile(profile);
+        profile.setUser(user);
 
         Role roles = roleRepository.findByName("ROLE_USER").orElseThrow(IllegalStateException::new);
         user.setRoles(Collections.singleton(roles));
@@ -98,7 +115,7 @@ public class UserService {
                 loginDto.getUsernameOrEmail(), loginDto.getPassword()));
 
         SecurityContextHolder.getContext().setAuthentication(authentication);
-        return new ResponseEntity<>("User signed-in successfully!.", HttpStatus.OK);
+        return new ResponseEntity<>("User signed-in successfully!" , HttpStatus.OK);
     }
 
 }

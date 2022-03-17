@@ -1,48 +1,21 @@
 package netcracker.controller;
 
-import netcracker.model.User;
-import netcracker.payload.SignUpDto;
 import netcracker.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/api")
 public class UserController {
 
     @Autowired
     private UserService userService;
 
-    @GetMapping("/users")
-    public @ResponseBody List<User> getUsers(){
-        return userService.getUsers();
+    @GetMapping("/users/{id}/profile")
+    public ResponseEntity<?> getUserProfile(@PathVariable(name = "id") Long id){
+        return userService.getUserProfile(id);
     }
-
-    @GetMapping("/users/{id}")
-    public @ResponseBody User getUser(@PathVariable(name = "id") Long id){
-        return userService.getUser(id);
-    }
-
-    @PutMapping("users/{id}/role/{roleId}")
-    public ResponseEntity<?> addUserRole(@PathVariable(name = "id") Long userId,
-                                         @PathVariable(name = "roleId") Long roleId){
-
-        return userService.addUserRole(userId, roleId);
-    }
-
-    @PutMapping("/users/{id}/update")
-    public ResponseEntity<?> updateUser(@PathVariable Long id, @RequestBody SignUpDto signUpDto){
-        return userService.updateUser(id, signUpDto);
-    }
-
-    @DeleteMapping("/users/{id}")
-    public ResponseEntity<?> deleteUser(@PathVariable Long id){
-        userService.deleteUser(id);
-        return new ResponseEntity<>(HttpStatus.OK);
-    }
-
 }
