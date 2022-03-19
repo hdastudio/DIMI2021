@@ -19,12 +19,12 @@ public class AdminController {
     private UserService userService;
 
     @GetMapping("/users")
-    public @ResponseBody List<User> getUsers(){
+    public ResponseEntity<?> getUsers(){
         return userService.getUsers();
     }
 
     @GetMapping("/users/{id}")
-    public @ResponseBody User getUser(@PathVariable(name = "id") Long id){
+    public ResponseEntity<?> getUser(@PathVariable(name = "id") Long id){
         return userService.getUser(id);
     }
 
