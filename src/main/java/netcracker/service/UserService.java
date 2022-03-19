@@ -9,7 +9,6 @@ import netcracker.payload.SignUpDto;
 import netcracker.repository.RoleRepository;
 import netcracker.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.crossstore.ChangeSetPersister;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -39,13 +38,15 @@ public class UserService {
     @Autowired
     private AuthenticationManager authenticationManager;
 
-    public List<User> getUsers(){
-        return userRepository.findAll();
+    public ResponseEntity<?> getUsers(){
+        List<User> userList = userRepository.findAll();
+        return new ResponseEntity<>(userList, HttpStatus.OK);
     }
 
-    public User getUser(Long id){
-        return userRepository.findById(id)
+    public ResponseEntity<?> getUser(Long id){
+        User user = userRepository.findById(id)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found!"));
+        return new ResponseEntity<>(user , HttpStatus.OK);
     }
 
     public ResponseEntity<?> updateUser(Long id, SignUpDto signUpDto){
