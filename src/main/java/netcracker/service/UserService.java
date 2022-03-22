@@ -22,6 +22,7 @@ import org.springframework.web.server.ResponseStatusException;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.UUID;
 
 @Service
 public class UserService {
@@ -43,13 +44,13 @@ public class UserService {
         return new ResponseEntity<>(userList, HttpStatus.OK);
     }
 
-    public ResponseEntity<?> getUser(Long id){
+    public ResponseEntity<?> getUser(UUID id){
         User user = userRepository.findById(id)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found!"));
         return new ResponseEntity<>(user , HttpStatus.OK);
     }
 
-    public ResponseEntity<?> updateUser(Long id, SignUpDto signUpDto){
+    public ResponseEntity<?> updateUser(UUID id, SignUpDto signUpDto){
         User user = userRepository.findById(id)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found!"));
         user.setUsername(signUpDto.getUsername());
@@ -60,7 +61,7 @@ public class UserService {
         return new ResponseEntity<>("User updated" + user.getId(), HttpStatus.OK);
     }
 
-    public ResponseEntity<?> deleteUser(Long id){
+    public ResponseEntity<?> deleteUser(UUID id){
         if(!userRepository.existsById(id)){
             return new ResponseEntity<>("User not found!",HttpStatus.NOT_FOUND);
         }
@@ -68,7 +69,7 @@ public class UserService {
         return new ResponseEntity<>("User deleted", HttpStatus.OK);
     }
 
-    public ResponseEntity<?> addUserRole(Long userId, Long roleId){
+    public ResponseEntity<?> addUserRole(UUID userId, UUID roleId){
         Role role = roleRepository.findById(roleId)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Role not found!"));
         User user = userRepository.findById(userId)

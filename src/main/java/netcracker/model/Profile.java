@@ -6,6 +6,7 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import javax.validation.constraints.Null;
+import java.util.UUID;
 
 @Getter
 @Setter
@@ -15,7 +16,7 @@ public class Profile {
 
     @Id
     @Column(name = "user_id")
-    private Long id;
+    private UUID id;
     private String name;
     private String surname;
     private String aboutMeInfo;
@@ -29,9 +30,9 @@ public class Profile {
 //    @ManyToMany
 //    @ElementCollection(targetClass = String.class, fetch = FetchType.LAZY)
 //    @CollectionTable(name = "deck", joinColumns = @JoinColumn(name = "user_id"))
-//    List<String> deckList;
+//    List<Deck> deckList;
 
 //    @ManyToMany
-//    List<String> personList;
+//    List<Person> personList;
 
 }

@@ -10,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/api")
@@ -24,24 +25,24 @@ public class AdminController {
     }
 
     @GetMapping("/users/{id}")
-    public ResponseEntity<?> getUser(@PathVariable(name = "id") Long id){
+    public ResponseEntity<?> getUser(@PathVariable(name = "id") UUID id){
         return userService.getUser(id);
     }
 
     @PutMapping("users/{id}/role/{roleId}")
-    public ResponseEntity<?> addUserRole(@PathVariable(name = "id") Long userId,
-                                         @PathVariable(name = "roleId") Long roleId){
+    public ResponseEntity<?> addUserRole(@PathVariable(name = "id") UUID userId,
+                                         @PathVariable(name = "roleId") UUID roleId){
 
         return userService.addUserRole(userId, roleId);
     }
 
     @PutMapping("/users/{id}/update")
-    public ResponseEntity<?> updateUser(@PathVariable Long id, @RequestBody SignUpDto signUpDto){
+    public ResponseEntity<?> updateUser(@PathVariable UUID id, @RequestBody SignUpDto signUpDto){
         return userService.updateUser(id, signUpDto);
     }
 
     @DeleteMapping("/users/{id}")
-    public ResponseEntity<?> deleteUser(@PathVariable Long id){
+    public ResponseEntity<?> deleteUser(@PathVariable UUID id){
         return userService.deleteUser(id);
     }
 
