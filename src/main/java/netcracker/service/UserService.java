@@ -20,6 +20,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
@@ -144,5 +145,21 @@ public class UserService {
         userConfInfo.setPassword(user.getPassword());
 
         return new ResponseEntity<>(userConfInfo, HttpStatus.OK);
+    }
+
+    public ResponseEntity<?> updateUserInfo(UserDetails userDetails, SignUpDto signUpDto){
+        User user = userRepository.findByUsernameOrEmail(userDetails.getUsername(), userDetails.getUsername())
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found!"));
+        if(userRepository.existsByUsername(signUpDto.getUsername()) || userRepository.existsByEmail(signUpDto.getEmail())){
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+        user.setUsername(signUpDto.getUsername());
+        user.setEmail(signUpDto.getEmail());
+        user.setPassword(passwordEncoder.encode(signUpDto.getPassword()));
+        userRepository.save(user);
+        Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(
+                signUpDto.getUsername(), signUpDto.getPassword()));
+        SecurityContextHolder.getContext().setAuthentication(authentication);
+        return new ResponseEntity<>("User conf.info updated", HttpStatus.OK);
     }
 }
